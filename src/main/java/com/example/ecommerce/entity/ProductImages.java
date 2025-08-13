@@ -4,19 +4,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.yaml.snakeyaml.scanner.ScannerImpl;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "role", schema = "ecommerce")
+@Table(name = "product_images", schema = "ecommerce")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Role implements GrantedAuthority {
+public class ProductImages {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +26,18 @@ public class Role implements GrantedAuthority {
     @NotNull
     @NotEmpty
     @NotBlank
-    @Size(max = 50)
-    private String name;
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "index")
+    private Integer index;
+
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDate createdAt;
 
     @NotNull
-    @NotEmpty
-    @NotBlank
-    @Size(max = 50)
-    private String code;
-
-    private String authority;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

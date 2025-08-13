@@ -8,18 +8,16 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "order", schema = "ecommerce")
+@Table(name = "order_products", schema = "ecommerce")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Order {
+public class OrderProducts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,37 +25,39 @@ public class Order {
     private Long id;
 
     @NotNull
-    @Column(name = "card_expire_month")
-    private Integer cardExpireMonth;
-
-    @NotNull
-    @Column(name = "card_expire_year")
-    private Integer cardExpireYear;
+    @Column(name = "count")
+    private Integer count;
 
     @NotNull
     @NotEmpty
     @NotBlank
     @Size(max = 50)
-    @Column(name = "card_name")
-    private String cardName;
+    @Column(name = "name")
+    private String name;
 
     @NotNull
-    @Column(name = "card_no")
-    private Integer cardNo;
+    @NotEmpty
+    @NotBlank
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "order_date")
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Column(name = "created_at")
     @CreatedDate
-    private LocalDate orderDate;
-
-    @NotNull
-    @Column(name = "price")
-    private Double price;
+    private LocalDate createdAt;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderProducts> products;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }
