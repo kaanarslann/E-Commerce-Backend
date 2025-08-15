@@ -48,7 +48,7 @@ public class Product {
     private Integer stock;
 
     @Column(name = "store_id")
-    private long storeId;
+    private Long storeId;
 
     @NotNull
     @Column(name = "rating")

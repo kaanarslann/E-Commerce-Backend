@@ -50,6 +50,13 @@ public class Address {
     @NotNull
     @NotEmpty
     @NotBlank
+    @Size(max = 12)
+    @Column(name = "phone")
+    private String phone;
+
+    @NotNull
+    @NotEmpty
+    @NotBlank
     @Size(max = 20)
     @Column(name = "city")
     private String city;
