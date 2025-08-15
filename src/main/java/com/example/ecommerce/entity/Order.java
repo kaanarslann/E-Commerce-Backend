@@ -12,6 +12,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -47,7 +48,7 @@ public class Order {
 
     @Column(name = "order_date")
     @CreatedDate
-    private LocalDate orderDate;
+    private LocalDateTime orderDate;
 
     @NotNull
     @Column(name = "price")
@@ -57,6 +58,11 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProducts> products;

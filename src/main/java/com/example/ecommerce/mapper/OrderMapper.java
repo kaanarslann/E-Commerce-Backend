@@ -1,0 +1,74 @@
+package com.example.ecommerce.mapper;
+
+import com.example.ecommerce.dto.OrderProductsResponse;
+import com.example.ecommerce.dto.OrderRequest;
+import com.example.ecommerce.dto.OrderResponse;
+import com.example.ecommerce.dto.ProductImagesResponse;
+import com.example.ecommerce.entity.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class OrderMapper {
+    public OrderResponse toResponse(Order order) {
+        List<OrderProductsResponse> orderProductsResponses = order.getProducts().stream().map(orderProduct -> {
+            Product product = orderProduct.getProduct();
+            List<ProductImagesResponse> images = product.getImages().stream().map(image -> new ProductImagesResponse(image.getUrl(), image.getIndex())).toList();
+
+            return new OrderProductsResponse(
+                    orderProduct.getId(),
+                    orderProduct.getCount(),
+                    orderProduct.getName(),
+                    orderProduct.getDescription(),
+                    product.getPrice(),
+                    images);
+        }).toList();
+
+        return new OrderResponse(
+                order.getId(),
+                order.getUser().getId(),
+                order.getAddress().getId(),
+                order.getCardNo(),
+                order.getCardExpireMonth(),
+                order.getCardExpireYear(),
+                order.getCardName(),
+                order.getPrice(),
+                order.getOrderDate(),
+                orderProductsResponses
+        );
+    };
+
+    public Order toEntity(OrderRequest orderRequest, User user, Address address, List<Product> products) {
+        Order order = new Order();
+        order.setUser(user);
+        order.setAddress(address);
+        order.setCardNo(orderRequest.cardNo());
+        order.setCardExpireMonth(orderRequest.cardExpireMonth());
+        order.setCardExpireYear(orderRequest.cardExpireYear());
+        order.setCardName(orderRequest.cardName());
+        order.setOrderDate(LocalDateTime.now());
+
+        List<OrderProducts> orderProducts = orderRequest.products().stream().map(items -> {
+            Product product = products.stream()
+                    .filter(item -> item.getId().equals(items.productId()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Product not found! " + items.productId()));
+
+            OrderProducts op = new OrderProducts();
+            op.setProduct(product);
+            op.setCount(items.count());
+            op.setDescription(items.detail());
+            op.setOrder(order);
+
+            return op;
+        }).toList();
+
+        order.setProducts(orderProducts);
+
+        double totalPrice = orderProducts.stream().mapToDouble(op -> op.getProduct().getPrice() * op.getCount()).sum();
+        order.setPrice(totalPrice);
+
+        return order;
+    }
+}
