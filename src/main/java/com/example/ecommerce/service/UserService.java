@@ -1,0 +1,10 @@
+package com.example.ecommerce.service;
+
+import com.example.ecommerce.dto.UserResponse;
+import com.example.ecommerce.dto.UserSignupRequest;
+
+public interface UserService {
+    UserResponse getByEmail(String email);
+    UserResponse save(UserSignupRequest signupRequest);
+    UserResponse verify(String token);
+}

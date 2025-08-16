@@ -7,6 +7,7 @@ import com.example.ecommerce.entity.Address;
 import com.example.ecommerce.entity.Order;
 import com.example.ecommerce.entity.Product;
 import com.example.ecommerce.entity.User;
+import com.example.ecommerce.exceptions.AddressNotFoundException;
 import com.example.ecommerce.mapper.OrderMapper;
 import com.example.ecommerce.repository.AddressRepository;
 import com.example.ecommerce.repository.OrderRepository;
@@ -14,9 +15,9 @@ import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,9 +51,9 @@ public class OrderServiceImpl implements OrderService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found!"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found."));
 
-        Address address = addressRepository.findById(orderRequest.addressId()).orElseThrow(() -> new RuntimeException("Address not found"));
+        Address address = addressRepository.findById(orderRequest.addressId()).orElseThrow(() -> new AddressNotFoundException("Address not found."));
 
         List<Long> productIds = orderRequest.products().stream().map(OrderProductsRequest::productId).toList();
         List<Product> products = productRepository.findAllById(productIds);

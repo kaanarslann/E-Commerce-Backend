@@ -26,7 +26,7 @@ public class CreditCard {
     private Long id;
 
     @NotNull
-    @Column(name = "card_np")
+    @Column(name = "card_no")
     private Integer cardNo;
 
     @NotNull

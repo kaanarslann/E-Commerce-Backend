@@ -3,6 +3,7 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.dto.CreditCardRequest;
 import com.example.ecommerce.dto.CreditCardResponse;
 import com.example.ecommerce.entity.CreditCard;
+import com.example.ecommerce.exceptions.CardAlreadyExistsException;
 import com.example.ecommerce.mapper.CreditCardMapper;
 import com.example.ecommerce.repository.CreditCardRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,10 @@ public class CreditCardServiceImpl implements CreditCardService{
 
     @Override
     public CreditCardResponse save(CreditCardRequest creditCardRequest) {
+        if(creditCardRepository.findByCardNo(creditCardRequest.cardNo()).isPresent()) {
+            throw new CardAlreadyExistsException("Credit Card already exists.");
+        }
+
         CreditCard creditCard = creditCardRepository.save(creditCardMapper.toEntity(creditCardRequest));
         return creditCardMapper.toResponse(creditCard);
     }
