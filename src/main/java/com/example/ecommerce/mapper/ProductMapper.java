@@ -3,9 +3,11 @@ package com.example.ecommerce.mapper;
 import com.example.ecommerce.dto.ProductImagesResponse;
 import com.example.ecommerce.dto.ProductResponse;
 import com.example.ecommerce.entity.Product;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ProductMapper {
     public ProductResponse toResponse(Product product) {
 

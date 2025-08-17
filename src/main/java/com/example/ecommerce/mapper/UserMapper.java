@@ -3,7 +3,9 @@ package com.example.ecommerce.mapper;
 import com.example.ecommerce.dto.UserResponse;
 import com.example.ecommerce.dto.UserSignupRequest;
 import com.example.ecommerce.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
     public User toEntity(UserSignupRequest signupRequest) {
         User user = new User();

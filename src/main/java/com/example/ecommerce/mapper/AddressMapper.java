@@ -3,7 +3,9 @@ package com.example.ecommerce.mapper;
 import com.example.ecommerce.dto.AddressRequest;
 import com.example.ecommerce.dto.AddressResponse;
 import com.example.ecommerce.entity.Address;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddressMapper {
 
     public Address toEntity(AddressRequest addressRequest) {

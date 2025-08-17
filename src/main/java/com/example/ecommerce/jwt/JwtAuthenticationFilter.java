@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
         if(token != null) {
             try {
-                username = jwtUtil.extractUsername(token);
+                username = jwtUtil.extractEmail(token);
             } catch (Exception e) {
                 System.out.println("JWT extraction error: " + e.getMessage());
             }

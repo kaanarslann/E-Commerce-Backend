@@ -3,7 +3,9 @@ package com.example.ecommerce.mapper;
 import com.example.ecommerce.dto.CreditCardRequest;
 import com.example.ecommerce.dto.CreditCardResponse;
 import com.example.ecommerce.entity.CreditCard;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreditCardMapper {
 
     public CreditCard toEntity(CreditCardRequest creditCardRequest) {

@@ -16,10 +16,6 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/products")
-    public ProductListResponse getProducts() {
-        return productService.getProducts();
-    }
 
     @GetMapping("/products")
     public ProductListResponse getFilteredProducts(@RequestParam(required = false) String filter,

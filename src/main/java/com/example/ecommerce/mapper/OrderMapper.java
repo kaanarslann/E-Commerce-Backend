@@ -5,11 +5,13 @@ import com.example.ecommerce.dto.OrderRequest;
 import com.example.ecommerce.dto.OrderResponse;
 import com.example.ecommerce.dto.ProductImagesResponse;
 import com.example.ecommerce.entity.*;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Component
 public class OrderMapper {
     public OrderResponse toResponse(Order order) {
         List<OrderProductsResponse> orderProductsResponses = order.getProducts().stream().map(orderProduct -> {
