@@ -3,10 +3,14 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.dto.AddressRequest;
 import com.example.ecommerce.dto.AddressResponse;
 import com.example.ecommerce.entity.Address;
+import com.example.ecommerce.entity.User;
 import com.example.ecommerce.mapper.AddressMapper;
 import com.example.ecommerce.repository.AddressRepository;
+import com.example.ecommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +24,17 @@ public class AddressServiceImpl implements AddressService{
     private AddressRepository addressRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private AddressMapper addressMapper;
 
     @Override
     public List<AddressResponse> getAddresses() {
-        return addressRepository.findAll().stream().map(addressMapper::toResponse).toList();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found."));
+
+        return addressRepository.findByUserId(user.getId()).stream().map(addressMapper::toResponse).toList();
     }
 
     @Override

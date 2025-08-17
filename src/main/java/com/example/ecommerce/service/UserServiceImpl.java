@@ -1,14 +1,12 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.dto.LoginRequest;
 import com.example.ecommerce.dto.RoleResponse;
 import com.example.ecommerce.dto.UserResponse;
 import com.example.ecommerce.dto.UserSignupRequest;
 import com.example.ecommerce.entity.Role;
 import com.example.ecommerce.entity.User;
-import com.example.ecommerce.exceptions.EmailAlreadyExistsException;
-import com.example.ecommerce.exceptions.RoleNotFoundException;
-import com.example.ecommerce.exceptions.TokenNotValidException;
-import com.example.ecommerce.exceptions.UserNotFoundException;
+import com.example.ecommerce.exceptions.*;
 import com.example.ecommerce.jwt.JwtUtil;
 import com.example.ecommerce.mapper.UserMapper;
 import com.example.ecommerce.repository.RoleRepository;
@@ -76,6 +74,16 @@ public class UserServiceImpl implements UserService{
             throw new TokenNotValidException("Token is not valid or expired.");
         }
 
+        return new UserResponse(token, user.getFullName(), user.getEmail(), user.getRoles().get(0).getId());
+    }
+
+    @Override
+    public UserResponse login(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.email()).orElseThrow(() -> new UserNotFoundException("User not found."));
+        if(!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
+            throw new InvalidPasswordException("Wrong login information.");
+        }
+        String token = jwtUtil.generateToken(user.getEmail());
         return new UserResponse(token, user.getFullName(), user.getEmail(), user.getRoles().get(0).getId());
     }
 }
