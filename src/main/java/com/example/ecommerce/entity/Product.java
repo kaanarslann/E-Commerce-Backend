@@ -29,7 +29,7 @@ public class Product {
     @NotEmpty
     @NotBlank
     @NotNull
-    @Size(max = 20)
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
 

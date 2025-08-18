@@ -19,12 +19,12 @@ public class ProductController {
 
     @GetMapping("/products")
     public ProductListResponse getFilteredProducts(@RequestParam(required = false) String filter,
-                                                   @RequestParam(required = false) Long categoryId,
+                                                   @RequestParam(required = false) Long category,
                                                    @RequestParam(required = false) String sort,
                                                    @RequestParam(required = false, defaultValue = "asc") String direction,
                                                    @RequestParam(defaultValue = "24") Integer limit,
                                                    @RequestParam(defaultValue = "0") Integer offset) {
-        ProductFilterRequest request = new ProductFilterRequest(filter, categoryId, sort, direction, limit, offset);
+        ProductFilterRequest request = new ProductFilterRequest(filter, category, sort, direction, limit, offset);
         return productService.getFilteredProducts(request);
     }
 
