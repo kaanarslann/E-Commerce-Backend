@@ -42,6 +42,9 @@ public class OrderProducts {
     private String description;
 
     @NotNull
+    private Double price;
+
+    @NotNull
     @NotEmpty
     @NotBlank
     @Column(name = "image_url")

@@ -8,18 +8,18 @@ import jakarta.validation.constraints.Size;
 
 public record CreditCardRequest(
         @NotNull
-        Integer cardNo,
+        Long card_no,
 
         @NotNull
-        Integer expireMonth,
+        Integer expire_month,
 
         @NotNull
-        Integer expireYear,
+        Integer expire_year,
 
         @NotNull
         @NotEmpty
         @NotBlank
         @Size(max = 50)
-        String nameOnCard
+        String name_on_card
 ) {
 }

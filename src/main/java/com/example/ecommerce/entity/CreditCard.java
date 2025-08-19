@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -27,7 +29,7 @@ public class CreditCard {
 
     @NotNull
     @Column(name = "card_no")
-    private Integer cardNo;
+    private Long cardNo;
 
     @NotNull
     @Column(name = "expire_month")
@@ -45,11 +47,11 @@ public class CreditCard {
     private String nameOnCard;
 
     @Column(name = "created_at")
-    @CreatedDate
+    @CreationTimestamp
     private LocalDate createdAt;
 
     @Column(name = "updated_at")
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDate updatedAt;
 
     @NotNull

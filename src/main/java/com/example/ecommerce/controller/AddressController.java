@@ -2,6 +2,8 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.dto.AddressRequest;
 import com.example.ecommerce.dto.AddressResponse;
+import com.example.ecommerce.dto.AddressUpdateRequest;
+import com.example.ecommerce.dto.BackendResponse;
 import com.example.ecommerce.service.AddressService;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +32,13 @@ public class AddressController {
     }
 
     @PutMapping("/address")
-    public AddressResponse update(@Positive Long id, @Validated @RequestBody AddressRequest addressRequest) {
-        return addressService.update(id, addressRequest);
+    public AddressResponse update(@Validated @RequestBody AddressUpdateRequest updateRequest) {
+        return addressService.update(updateRequest);
     }
 
     @DeleteMapping("/address/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@Positive @PathVariable("id") Long id) {
-        addressService.delete(id);
+    @ResponseStatus(HttpStatus.OK)
+    public BackendResponse delete(@Positive @PathVariable("id") Long id) {
+        return addressService.delete(id);
     }
 }

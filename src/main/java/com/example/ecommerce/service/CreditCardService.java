@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.dto.BackendResponse;
 import com.example.ecommerce.dto.CreditCardRequest;
 import com.example.ecommerce.dto.CreditCardResponse;
 
@@ -9,5 +10,5 @@ public interface CreditCardService {
     List<CreditCardResponse> getCreditCards();
     CreditCardResponse save(CreditCardRequest creditCardRequest);
     CreditCardResponse update(Long id, CreditCardRequest creditCardRequest);
-    void delete(Long id);
+    BackendResponse delete(Long id);
 }

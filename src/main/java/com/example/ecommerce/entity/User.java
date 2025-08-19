@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,7 +52,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "created_at")
-    @CreatedDate
+    @CreationTimestamp
     private LocalDate createdAt;
 
     @Size(max = 150)

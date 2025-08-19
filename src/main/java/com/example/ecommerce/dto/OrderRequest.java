@@ -12,22 +12,22 @@ import java.util.List;
 
 public record OrderRequest(
         @NotNull
-        Long addressId,
+        Long address_id,
 
         @NotNull
-        Integer cardNo,
+        Long card_no,
 
         @NotNull
-        Integer cardExpireMonth,
+        Integer card_expire_month,
 
         @NotNull
-        Integer cardExpireYear,
+        Integer card_expire_year,
 
         @NotNull
         @NotEmpty
         @NotBlank
         @Size(max = 50)
-        String cardName,
+        String card_name,
 
         @NotNull
         Double price,

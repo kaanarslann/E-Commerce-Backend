@@ -1,5 +1,6 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.dto.BackendResponse;
 import com.example.ecommerce.dto.CreditCardRequest;
 import com.example.ecommerce.dto.CreditCardResponse;
 import com.example.ecommerce.service.CreditCardService;
@@ -33,8 +34,8 @@ public class CreditCardController {
     }
 
     @DeleteMapping("/card/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@Positive @PathVariable Long id) {
-        creditCardService.delete(id);
+    @ResponseStatus(HttpStatus.OK)
+    public BackendResponse delete(@Positive @PathVariable Long id) {
+        return creditCardService.delete(id);
     }
 }

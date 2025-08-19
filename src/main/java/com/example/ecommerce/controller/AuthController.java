@@ -1,5 +1,6 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.dto.BackendResponse;
 import com.example.ecommerce.dto.LoginRequest;
 import com.example.ecommerce.dto.UserResponse;
 import com.example.ecommerce.dto.UserSignupRequest;
@@ -7,10 +8,7 @@ import com.example.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public UserResponse signup(@Validated @RequestBody UserSignupRequest signupRequest) {
+    public BackendResponse signup(@Validated @RequestBody UserSignupRequest signupRequest) {
         return userService.save(signupRequest);
     }
 
@@ -29,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
-    public UserResponse verify(@Validated @RequestBody String token) {
+    public UserResponse verify(@RequestHeader("Authorization") String token) {
         return userService.verify(token);
     }
 

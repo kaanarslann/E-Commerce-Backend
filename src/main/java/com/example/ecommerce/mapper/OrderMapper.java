@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderMapper {
@@ -45,17 +46,17 @@ public class OrderMapper {
         Order order = new Order();
         order.setUser(user);
         order.setAddress(address);
-        order.setCardNo(orderRequest.cardNo());
-        order.setCardExpireMonth(orderRequest.cardExpireMonth());
-        order.setCardExpireYear(orderRequest.cardExpireYear());
-        order.setCardName(orderRequest.cardName());
+        order.setCardNo(orderRequest.card_no());
+        order.setCardExpireMonth(orderRequest.card_expire_month());
+        order.setCardExpireYear(orderRequest.card_expire_year());
+        order.setCardName(orderRequest.card_name());
         order.setOrderDate(LocalDateTime.now());
 
         List<OrderProducts> orderProducts = orderRequest.products().stream().map(items -> {
             Product product = products.stream()
-                    .filter(item -> item.getId().equals(items.productId()))
+                    .filter(item -> item.getId().equals(items.product_id()))
                     .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Product not found! " + items.productId()));
+                    .orElseThrow(() -> new RuntimeException("Product not found! " + items.product_id()));
 
             OrderProducts op = new OrderProducts();
             op.setProduct(product);
@@ -63,8 +64,12 @@ public class OrderMapper {
             op.setDescription(items.detail());
             op.setOrder(order);
 
+            op.setName(product.getName());
+            op.setImageUrl(product.getImages().get(0).getUrl());
+            op.setPrice(product.getPrice());
+
             return op;
-        }).toList();
+        }).collect(Collectors.toList());
 
         order.setProducts(orderProducts);
 

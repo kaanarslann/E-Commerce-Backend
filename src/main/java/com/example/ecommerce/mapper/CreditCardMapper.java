@@ -10,10 +10,10 @@ public class CreditCardMapper {
 
     public CreditCard toEntity(CreditCardRequest creditCardRequest) {
         CreditCard creditCard = new CreditCard();
-        creditCard.setCardNo(creditCardRequest.cardNo());
-        creditCard.setExpireMonth(creditCardRequest.expireMonth());
-        creditCard.setExpireYear(creditCardRequest.expireYear());
-        creditCard.setNameOnCard(creditCardRequest.nameOnCard());
+        creditCard.setCardNo(creditCardRequest.card_no());
+        creditCard.setExpireMonth(creditCardRequest.expire_month());
+        creditCard.setExpireYear(creditCardRequest.expire_year());
+        creditCard.setNameOnCard(creditCardRequest.name_on_card());
 
         return creditCard;
     }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -44,10 +45,10 @@ public class Order {
 
     @NotNull
     @Column(name = "card_no")
-    private Integer cardNo;
+    private Long cardNo;
 
     @Column(name = "order_date")
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime orderDate;
 
     @NotNull

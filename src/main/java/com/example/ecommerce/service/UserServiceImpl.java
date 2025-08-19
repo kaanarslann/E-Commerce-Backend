@@ -1,9 +1,6 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.dto.LoginRequest;
-import com.example.ecommerce.dto.RoleResponse;
-import com.example.ecommerce.dto.UserResponse;
-import com.example.ecommerce.dto.UserSignupRequest;
+import com.example.ecommerce.dto.*;
 import com.example.ecommerce.entity.Role;
 import com.example.ecommerce.entity.User;
 import com.example.ecommerce.exceptions.*;
@@ -47,21 +44,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserResponse save(UserSignupRequest signupRequest) {
+    public BackendResponse save(UserSignupRequest signupRequest) {
         if(userRepository.findByEmail(signupRequest.email()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already registered.");
         }
 
-        Role role = roleRepository.findById(signupRequest.roleId()).orElseThrow(() -> new RoleNotFoundException("Role not found."));
+        Role role = roleRepository.findById(signupRequest.role_id()).orElseThrow(() -> new RoleNotFoundException("Role not found."));
 
         User user = userMapper.toEntity(signupRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(List.of(role));
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
-
-        return new UserResponse(token, user.getFullName(), user.getEmail(), user.getRoles().get(0).getId());
+        return new BackendResponse("Please check your email to confirm your signup!");
     }
 
     @Override

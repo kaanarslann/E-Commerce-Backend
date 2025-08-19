@@ -11,10 +11,10 @@ public record UserSignupRequest(
         @NotBlank
         String password,
         @NotNull
-        Long roleId,
-        String storeName,
-        String storePhone,
-        String storeTaxId,
-        String storeBankAccount
+        Long role_id,
+        String store_name,
+        String store_phone,
+        String store_tax_id,
+        String store_bank_account
 ) {
 }

@@ -12,14 +12,14 @@ public class UserMapper {
         user.setFullName(signupRequest.name());
         user.setEmail(signupRequest.email());
         user.setPassword(signupRequest.password());
-        if(signupRequest.storeName() != null)
-            user.setStoreName(signupRequest.storeName());
-        if(signupRequest.storePhone() != null)
-            user.setStorePhone(signupRequest.storePhone());
-        if(signupRequest.storeTaxId() != null)
-            user.setStoreTaxId(signupRequest.storeTaxId());
-        if(signupRequest.storeBankAccount() != null)
-            user.setStoreBankAccount(signupRequest.storeBankAccount());
+        if(signupRequest.store_name() != null)
+            user.setStoreName(signupRequest.store_name());
+        if(signupRequest.store_phone() != null)
+            user.setStorePhone(signupRequest.store_phone());
+        if(signupRequest.store_tax_id() != null)
+            user.setStoreTaxId(signupRequest.store_tax_id());
+        if(signupRequest.store_bank_account() != null)
+            user.setStoreBankAccount(signupRequest.store_bank_account());
 
         return user;
     }

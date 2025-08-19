@@ -40,14 +40,26 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductListResponse getFilteredProducts(ProductFilterRequest request) {
-        Sort.Direction direction = Sort.Direction.fromString(request.direction() != null ? request.direction() : "ASC");
-        Sort sort = Sort.by(direction, request.sort() != null ? request.sort() : "id");
+        String sortParam = request.sort();
+        String sortField = "id";
+        Sort.Direction direction = Sort.Direction.ASC;
 
-        Pageable pageable = PageRequest.of(
-                request.offset() != null ? request.offset() : 0,
-                request.limit() != null ? request.limit() : 24,
-                sort
-        );
+        if(sortParam != null) {
+            String[] parts = sortParam.split(":");
+            sortField = parts[0];
+            if(parts.length > 1) {
+                direction = Sort.Direction.fromString(parts[1]);
+            }
+        } else if(request.direction() != null) {
+            direction = Sort.Direction.fromString(request.direction());
+        }
+
+        Sort sort = Sort.by(direction, sortField);
+        int limit = request.limit() != null ? request.limit() : 24;
+        int offset = request.offset() != null ? request.offset() : 0;
+        int pageNumber = offset / limit;
+
+        Pageable pageable = PageRequest.of(pageNumber, limit, sort);
 
         Page<Product> page = productRepository.findFilteredProducts(request.categoryId(), request.filter(), pageable);
 

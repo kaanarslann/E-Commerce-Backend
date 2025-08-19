@@ -1,7 +1,7 @@
 package com.example.ecommerce.dto;
 
 public record OrderProductsRequest(
-        Long productId,
+        Long product_id,
         Integer count,
         String detail
 ) {

@@ -53,9 +53,9 @@ public class OrderServiceImpl implements OrderService{
 
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found."));
 
-        Address address = addressRepository.findById(orderRequest.addressId()).orElseThrow(() -> new AddressNotFoundException("Address not found."));
+        Address address = addressRepository.findById(orderRequest.address_id()).orElseThrow(() -> new AddressNotFoundException("Address not found."));
 
-        List<Long> productIds = orderRequest.products().stream().map(OrderProductsRequest::productId).toList();
+        List<Long> productIds = orderRequest.products().stream().map(OrderProductsRequest::product_id).toList();
         List<Product> products = productRepository.findAllById(productIds);
 
         Order order = orderRepository.save(orderMapper.toEntity(orderRequest, user, address, products));
