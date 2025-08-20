@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,5 +76,15 @@ public class ProductServiceImpl implements ProductService{
             return productMapper.toResponse(productOptional.get());
         }
         return null;
+    }
+
+    @Override
+    public ProductListResponse getBestSellerProducts(Integer limit) {
+        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "sellCount"));
+        Page<Product> page = productRepository.findAll(pageable);
+        List<Product> products = productRepository.findAll(pageable).getContent();
+        List<ProductResponse> productResponses = products.stream().map(productMapper::toResponse).collect(Collectors.toList());
+        long total = page.getTotalElements();
+        return new ProductListResponse(productResponses, total);
     }
 }

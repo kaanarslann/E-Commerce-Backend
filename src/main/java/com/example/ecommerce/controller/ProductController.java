@@ -32,4 +32,9 @@ public class ProductController {
     public ProductResponse getProductById(@Positive @PathVariable("id") Long id) {
         return productService.getProductById(id);
     }
+
+    @GetMapping("products/bestsellers")
+    public ProductListResponse getBestSellers(@RequestParam(defaultValue = "10") Integer limit) {
+        return productService.getBestSellerProducts(limit);
+    }
 }
