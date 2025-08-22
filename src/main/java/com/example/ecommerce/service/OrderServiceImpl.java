@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,11 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<OrderResponse> getOrders() {
-        return orderRepository.findAll().stream().map(orderMapper::toResponse).toList();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        Long userId = user.getId();
+        return orderRepository.findByUserId(userId).stream().map(orderMapper::toResponse).collect(Collectors.toList());
     }
 
     @Override
