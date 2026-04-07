@@ -1,4 +1,4 @@
-# 🛠️ E-Commerce Backend (REST API)
+# E-Commerce Backend (REST API)
 
 This project is a RESTful backend API for an e-commerce application, built using Java and Spring Boot.  
 It provides secure and scalable endpoints for managing users, products, and orders, with full CRUD functionality and JWT-based authentication.
